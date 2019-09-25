@@ -3,6 +3,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
 from profiles_api import serializers
+from profiles_api import models
+from profiles_api import permissions
+from rest_framework.authentication import TokenAuthentication
 
 
 class HelloApiView(APIView):
@@ -52,7 +55,7 @@ class HellowViewSets(viewsets.ViewSet):
     serializer_class = serializers.HelloSerializer
 
     def list(self,request):
-        """ return the hellp message """
+        """ return the hello message """
         a_viewset = ['uses actions (list,create,retieve,update,partial_update)',
         'Automatically maps to URLs using Routers',
         'Provides more functionality with less code',
@@ -89,3 +92,13 @@ class HellowViewSets(viewsets.ViewSet):
     def destroy(self, request ,pk=None):
         """ handle removing an object """
         return Response({'http_method':'DELETE'})
+
+
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """handle creating and updating profiles """
+
+    serializer_class = serializers.UserProfileSerializer
+    queryset = models.UserProfile.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.updateOwnProfile,)
