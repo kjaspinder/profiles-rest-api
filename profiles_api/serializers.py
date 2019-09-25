@@ -13,7 +13,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = models.UserProfile
         """ specify the fields of model that we want to manage using the serializer """
         fields = ('id','email','name','password')
-        extra_fwargs = {
+        extra_kwargs = {
             'password':{
                 'write_only':True,
                 'style':{'input_type':'password'}
